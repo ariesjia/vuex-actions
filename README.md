@@ -19,9 +19,9 @@ import { actionCreator , actionTypePrefixCreator } from 'vuex-actions';
 import { uniqueId } from 'lodash';
 
 const actionTypeCreator = actionTypePrefixCreator(uniqueId());
+
 // === if you use webpack you can use filename as unique string === 
 //const actionTypeCreator = actionTypePrefixCreator(__filename);
-
 
 export const showToast = actionCreator(
 	actionTypeCreator('SHOW_TOAST'), (text,type)=>{
@@ -55,7 +55,6 @@ export default mutationCreator((on)=>{
 		ui.shouldShowToast = true;
 	});
 
-
 	on(uiActions.hideToast,(ui)=>{
 		ui.shouldShowToast = false;
 	});
@@ -86,7 +85,6 @@ export default mutationCreator((on)=>{
 
 	on(userActions.login,(state)=>{
 		console.log('login');
-	
 	});
 
 	on.success(userActions.login,(state,user)=>{
