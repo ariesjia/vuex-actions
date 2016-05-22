@@ -25,6 +25,9 @@ export const actionCreator = (actionName, actionFunction)=> {
 			} else {
 				actionWith(dispatch, actionName, result);
 			}
+
+			return result;
+
 		} else {
 			actionWith(dispatch, actionName, originArgs);
 		}
