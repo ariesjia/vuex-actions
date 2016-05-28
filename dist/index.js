@@ -25,6 +25,10 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 		if ((0, _lodash.isFunction)(actionFunction)) {
 			var result = actionFunction.apply(state, originArgs);
 
+			if (!result) {
+				return false;
+			}
+
 			if (result instanceof Promise) {
 				actionWith(dispatch, actionName);
 
@@ -38,6 +42,8 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 			} else {
 				actionWith(dispatch, actionName, result);
 			}
+
+			return result;
 		} else {
 			actionWith(dispatch, actionName, originArgs);
 		}

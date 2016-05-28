@@ -11,6 +11,10 @@ export const actionCreator = (actionName, actionFunction)=> {
 		if (isFunction(actionFunction)) {
 			const result = actionFunction.apply(state, originArgs);
 
+			if(!result){
+				return false;
+			}
+
 			if (result instanceof Promise) {
 				actionWith(dispatch, actionName);
 
