@@ -25,10 +25,6 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 		if ((0, _lodash.isFunction)(actionFunction)) {
 			var result = actionFunction.apply(state, originArgs);
 
-			if (!result) {
-				return false;
-			}
-
 			if (result instanceof Promise) {
 				actionWith(dispatch, actionName);
 
