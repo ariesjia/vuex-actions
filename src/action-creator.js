@@ -1,4 +1,4 @@
-import {isFunction , curry , flatten} from 'lodash';
+import {isFunction , curry , flatten , uniqueId} from 'lodash';
 
 const actionWith = function (dispatch, name, data) {
 	dispatch.apply(null, flatten([name, data]));
@@ -38,5 +38,5 @@ export const actionCreator = (actionName, actionFunction)=> {
 	});
 };
 
-export const actionTypePrefixCreator = curry((prefix, actionName) => `${prefix}-action--${actionName}`);
+export const actionTypePrefixCreator = curry((prefix, actionName) => prefix ? `${prefix}-action--${actionName}` : `${uniqueId()}-action--${actionName}`);
 

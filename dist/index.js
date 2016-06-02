@@ -51,7 +51,7 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 };
 
 var actionTypePrefixCreator = exports.actionTypePrefixCreator = (0, _lodash.curry)(function (prefix, actionName) {
-	return prefix + '-action--' + actionName;
+	return prefix ? prefix + '-action--' + actionName : (0, _lodash.uniqueId)() + '-action--' + actionName;
 });
 'use strict';
 
