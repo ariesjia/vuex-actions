@@ -24,7 +24,7 @@ const actionTypeCreator = actionTypePrefixCreator(uniqueId());
 //const actionTypeCreator = actionTypePrefixCreator(__filename);
 
 export const showToast = actionCreator(
-	actionTypeCreator('SHOW_TOAST'), (text,type)=>{
+	actionTypeCreator('SHOW_TOAST'), ({ dispatch, state },text,type)=>{
 		return {
 			text,
 			loading : type == 'LOADING'
@@ -69,7 +69,7 @@ export default mutationCreator((on)=>{
 //  actions/user.js
 
 export const login = actionCreator(
-	actionTypeCreator('USER_LOGIN'),(username,password)=>{
+	actionTypeCreator('USER_LOGIN'),({ dispatch, state },username,password)=>{
 		return userApi.login(username,password)
 	}
 );
