@@ -5,7 +5,7 @@ export default (actionFunction,state)=>{
 	let mutations = {};
 
 	function getActionName(actionCreator){
-		return isFunction(actionCreator) ? actionCreator.actionName : actionCreator
+		return isFunction(actionCreator) && actionCreator.toString() ? actionCreator.toString() : actionCreator
 	}
 
 	function mergeHandlers(actionName, handler) {

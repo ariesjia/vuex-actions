@@ -33,9 +33,12 @@ export const actionCreator = (actionName, actionFunction)=> {
 		}
 	};
 
-	return Object.assign(func, {
-		actionName
-	});
+	func.toString = function () {
+		return actionName;
+	};
+
+	return func;
+
 };
 
 export const actionTypePrefixCreator = curry((prefix, actionName) => prefix ? `${prefix}-action--${actionName}` : `${uniqueId()}-action--${actionName}`);
