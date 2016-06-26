@@ -9,7 +9,7 @@ export const actionCreator = (actionName, actionFunction)=> {
 		const { dispatch, state } = args[0];
 		const originArgs = args.slice(1);
 		if (isFunction(actionFunction)) {
-			const result = actionFunction.apply(state, originArgs);
+			const result = actionFunction.apply(state, args);
 
 			if (result instanceof Promise) {
 				actionWith(dispatch, actionName);
