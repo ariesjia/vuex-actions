@@ -45,9 +45,11 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 		}
 	};
 
-	return Object.assign(func, {
-		actionName: actionName
-	});
+	func.toString = function () {
+		return actionName;
+	};
+
+	return func;
 };
 
 var actionTypePrefixCreator = exports.actionTypePrefixCreator = (0, _lodash.curry)(function (prefix, actionName) {
@@ -86,7 +88,7 @@ exports.default = function (actionFunction, state) {
 	var mutations = {};
 
 	function getActionName(actionCreator) {
-		return (0, _lodash.isFunction)(actionCreator) ? actionCreator.actionName : actionCreator;
+		return (0, _lodash.isFunction)(actionCreator) && actionCreator.toString() ? actionCreator.toString() : actionCreator;
 	}
 
 	function mergeHandlers(actionName, handler) {
