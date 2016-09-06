@@ -4,6 +4,10 @@ const actionWith = function (dispatch, name, data) {
 	dispatch.apply(null, flatten([name, data]));
 };
 
+function isPromise(val) {
+	return val && typeof val.then === 'function';
+}
+
 export const actionCreator = (actionName, actionFunction)=> {
 	const func = function (...args) {
 		const { dispatch, state } = args[0];
@@ -11,7 +15,7 @@ export const actionCreator = (actionName, actionFunction)=> {
 		if (isFunction(actionFunction)) {
 			const result = actionFunction.apply(state, args);
 
-			if (result instanceof Promise) {
+			if (isPromise(result)) {
 				actionWith(dispatch, actionName);
 
 				result.then((res)=> {
