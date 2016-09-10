@@ -33,11 +33,11 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 				actionWith(dispatch, actionName);
 
 				result.then(function (res) {
-					actionWith(dispatch, actionName + '__SUCCESS', res);
-					actionWith(dispatch, actionName + '__FINALLY', res, 'SUCCESS');
+					actionWith(dispatch, actionName + '__SUCCESS', [res, originArgs]);
+					actionWith(dispatch, actionName + '__FINALLY', [res, 'SUCCESS', originArgs]);
 				}, function (err) {
-					actionWith(dispatch, actionName + '__FAIL', err);
-					actionWith(dispatch, actionName + '__FINALLY', err, 'FAIL');
+					actionWith(dispatch, actionName + '__FAIL', [err, originArgs]);
+					actionWith(dispatch, actionName + '__FINALLY', [err, 'FAIL', originArgs]);
 				});
 			} else {
 				actionWith(dispatch, actionName, result);
