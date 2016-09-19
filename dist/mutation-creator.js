@@ -8,7 +8,7 @@ var _lodash = require('lodash');
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-exports.default = function (actionFunction, state) {
+exports.default = function (actionFunction) {
 
 	var mutations = {};
 
@@ -34,8 +34,5 @@ exports.default = function (actionFunction, state) {
 
 	actionFunction(on);
 
-	return {
-		state: state,
-		mutations: mutations
-	};
+	return mutations;
 };

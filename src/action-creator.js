@@ -1,7 +1,7 @@
 import {isFunction , curry , flatten , uniqueId} from 'lodash';
 
-const actionWith = function (dispatch, name, data) {
-	dispatch.apply(null, flatten([name, data]));
+const actionWith = function (commit, name, payload) {
+	commit.apply(null, [name, payload]);
 };
 
 function isPromise(val) {
@@ -10,30 +10,28 @@ function isPromise(val) {
 
 export const actionCreator = (actionName, actionFunction)=> {
 	const func = function (...args) {
-		const { dispatch, state } = args[0];
+		const { commit } = args[0];
 		const originArgs = args.slice(1);
 		if (isFunction(actionFunction)) {
-			const result = actionFunction.apply(state, args);
+			const result = actionFunction.apply(null, args);
 
 			if (isPromise(result)) {
-				actionWith(dispatch, actionName);
+				actionWith(commit, actionName,originArgs[0]);
 
 				result.then((res)=> {
-					actionWith(dispatch, `${actionName}__SUCCESS`, [res , originArgs] );
-					actionWith(dispatch, `${actionName}__FINALLY`, [res, 'SUCCESS' , originArgs]);
-				}, (err)=> {
-					actionWith(dispatch, `${actionName}__FAIL`,[err , originArgs]);
-					actionWith(dispatch, `${actionName}__FINALLY`, [err, 'FAIL' , originArgs]);
+					actionWith(commit, `${actionName}__SUCCESS`, res );
+			}, (err)=> {
+					actionWith(commit, `${actionName}__FAIL`,err );
 				});
 
 			} else {
-				actionWith(dispatch, actionName, result);
+				actionWith(commit, actionName, result);
 			}
 
 			return result;
 
 		} else {
-			actionWith(dispatch, actionName, originArgs);
+			actionWith(commit, actionName, originArgs[0]);
 		}
 	};
 

@@ -7,8 +7,8 @@ exports.actionTypePrefixCreator = exports.actionCreator = undefined;
 
 var _lodash = require('lodash');
 
-var actionWith = function actionWith(dispatch, name, data) {
-	dispatch.apply(null, (0, _lodash.flatten)([name, data]));
+var actionWith = function actionWith(commit, name, payload) {
+	commit.apply(null, [name, payload]);
 };
 
 function isPromise(val) {
@@ -21,31 +21,27 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 			args[_key] = arguments[_key];
 		}
 
-		var _args$ = args[0];
-		var dispatch = _args$.dispatch;
-		var state = _args$.state;
+		var commit = args[0].commit;
 
 		var originArgs = args.slice(1);
 		if ((0, _lodash.isFunction)(actionFunction)) {
-			var result = actionFunction.apply(state, args);
+			var result = actionFunction.apply(null, args);
 
 			if (isPromise(result)) {
-				actionWith(dispatch, actionName);
+				actionWith(commit, actionName, originArgs[0]);
 
 				result.then(function (res) {
-					actionWith(dispatch, actionName + '__SUCCESS', [res, originArgs]);
-					actionWith(dispatch, actionName + '__FINALLY', [res, 'SUCCESS', originArgs]);
+					actionWith(commit, actionName + '__SUCCESS', res);
 				}, function (err) {
-					actionWith(dispatch, actionName + '__FAIL', [err, originArgs]);
-					actionWith(dispatch, actionName + '__FINALLY', [err, 'FAIL', originArgs]);
+					actionWith(commit, actionName + '__FAIL', err);
 				});
 			} else {
-				actionWith(dispatch, actionName, result);
+				actionWith(commit, actionName, result);
 			}
 
 			return result;
 		} else {
-			actionWith(dispatch, actionName, originArgs);
+			actionWith(commit, actionName, originArgs[0]);
 		}
 	};
 

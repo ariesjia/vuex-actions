@@ -1,10 +1,10 @@
 import { isFunction , forEach } from 'lodash';
 
-export default (actionFunction,state)=>{
+export default (actionFunction)=> {
 
 	let mutations = {};
 
-	function getActionName(actionCreator){
+	function getActionName(actionCreator) {
 		return isFunction(actionCreator) && actionCreator.toString() ? actionCreator.toString() : actionCreator
 	}
 
@@ -14,23 +14,20 @@ export default (actionFunction,state)=>{
 		});
 	}
 
-	function on(actionCreator, handler){
+	function on(actionCreator, handler) {
 		mergeHandlers(getActionName(actionCreator), handler);
 	}
 
-	const method = ['success','fail','finally'];
+	const method = ['success', 'fail', 'finally'];
 
-	forEach(method,(name)=>{
-		on[name] =  (actionCreator, handler)=>{
+	forEach(method, (name)=> {
+		on[name] = (actionCreator, handler)=> {
 			mergeHandlers(`${getActionName(actionCreator)}__${name.toUpperCase()}`, handler);
 		};
 	});
 
 	actionFunction(on);
 
-	return {
-		state,
-		mutations
-	};
+	return mutations;
 
 };
