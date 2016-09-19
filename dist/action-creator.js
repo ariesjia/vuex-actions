@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.actionTypePrefixCreator = exports.actionCreator = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 var _lodash = require('lodash');
 
 var actionWith = function actionWith(commit, name, payload) {
@@ -25,21 +27,35 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 
 		var originArgs = args.slice(1);
 		if ((0, _lodash.isFunction)(actionFunction)) {
-			var result = actionFunction.apply(null, args);
+			var _ret = function () {
 
-			if (isPromise(result)) {
-				actionWith(commit, actionName, originArgs[0]);
+				var successActionName = actionName + '__SUCCESS';
+				var failActionName = actionName + '__FAIL';
 
-				result.then(function (res) {
-					actionWith(commit, actionName + '__SUCCESS', res);
-				}, function (err) {
-					actionWith(commit, actionName + '__FAIL', err);
-				});
-			} else {
-				actionWith(commit, actionName, result);
-			}
+				var result = actionFunction.apply({
+					actionName: actionName,
+					successActionName: successActionName,
+					failActionName: failActionName
+				}, args);
 
-			return result;
+				if (isPromise(result)) {
+					actionWith(commit, actionName, originArgs[0]);
+
+					result.then(function (res) {
+						actionWith(commit, successActionName, res);
+					}, function (err) {
+						actionWith(commit, failActionName, err);
+					});
+				} else {
+					actionWith(commit, actionName, result);
+				}
+
+				return {
+					v: result
+				};
+			}();
+
+			if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 		} else {
 			actionWith(commit, actionName, originArgs[0]);
 		}

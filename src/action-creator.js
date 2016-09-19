@@ -13,15 +13,23 @@ export const actionCreator = (actionName, actionFunction)=> {
 		const { commit } = args[0];
 		const originArgs = args.slice(1);
 		if (isFunction(actionFunction)) {
-			const result = actionFunction.apply(null, args);
+
+			const successActionName = `${actionName}__SUCCESS`;
+			const failActionName = `${actionName}__FAIL`;
+
+			const result = actionFunction.apply({
+				actionName,
+				successActionName,
+				failActionName
+			}, args);
 
 			if (isPromise(result)) {
 				actionWith(commit, actionName,originArgs[0]);
 
 				result.then((res)=> {
-					actionWith(commit, `${actionName}__SUCCESS`, res );
+					actionWith(commit, successActionName, res );
 			}, (err)=> {
-					actionWith(commit, `${actionName}__FAIL`,err );
+					actionWith(commit, failActionName, err );
 				});
 
 			} else {
