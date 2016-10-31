@@ -1,4 +1,4 @@
-import { isFunction , forEach } from 'lodash';
+import { isFunction , forEach } from 'lodash-es';
 
 export default (actionFunction)=> {
 

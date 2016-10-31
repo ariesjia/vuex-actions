@@ -7,10 +7,10 @@ exports.actionTypePrefixCreator = exports.actionCreator = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _lodash = require('lodash');
+var _lodashEs = require('lodash-es');
 
-var actionWith = function actionWith(commit, name, payload) {
-	commit.apply(null, [name, payload]);
+var actionWith = function actionWith(commit, name, payload, context) {
+	commit.apply(context, [name, payload]);
 };
 
 function isPromise(val) {
@@ -26,21 +26,23 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 		var commit = args[0].commit;
 
 		var originArgs = args.slice(1);
-		if ((0, _lodash.isFunction)(actionFunction)) {
+
+		if ((0, _lodashEs.isFunction)(actionFunction)) {
 			var _ret = function () {
 
 				var successActionName = actionName + '__SUCCESS';
 				var failActionName = actionName + '__FAIL';
-
-				var result = actionFunction.apply({
+				var context = {
 					actionName: actionName,
 					successActionName: successActionName,
-					failActionName: failActionName
-				}, args);
+					failActionName: failActionName,
+					originArgs: originArgs
+				};
+
+				var result = actionFunction.apply(context, args);
 
 				if (isPromise(result)) {
 					actionWith(commit, actionName, originArgs[0]);
-
 					result.then(function (res) {
 						actionWith(commit, successActionName, res);
 					}, function (err) {
@@ -68,6 +70,6 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 	return func;
 };
 
-var actionTypePrefixCreator = exports.actionTypePrefixCreator = (0, _lodash.curry)(function (prefix, actionName) {
-	return prefix ? prefix + '-action--' + actionName : (0, _lodash.uniqueId)() + '-action--' + actionName;
+var actionTypePrefixCreator = exports.actionTypePrefixCreator = (0, _lodashEs.curry)(function (prefix, actionName) {
+	return prefix ? prefix + '-action--' + actionName : (0, _lodashEs.uniqueId)() + '-action--' + actionName;
 });

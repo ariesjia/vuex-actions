@@ -1,7 +1,7 @@
-import {isFunction , curry , flatten , uniqueId} from 'lodash';
+import {isFunction , curry , flatten , uniqueId} from 'lodash-es';
 
-const actionWith = function (commit, name, payload) {
-	commit.apply(null, [name, payload]);
+const actionWith = function (commit, name, payload,context) {
+	commit.apply(context, [name, payload]);
 };
 
 function isPromise(val) {
@@ -12,28 +12,29 @@ export const actionCreator = (actionName, actionFunction)=> {
 	const func = function (...args) {
 		const { commit } = args[0];
 		const originArgs = args.slice(1);
-		if (isFunction(actionFunction)) {
+
+		if (isFunction(actionFunction)){
 
 			const successActionName = `${actionName}__SUCCESS`;
 			const failActionName = `${actionName}__FAIL`;
-
-			const result = actionFunction.apply({
+			const context = {
 				actionName,
 				successActionName,
-				failActionName
-			}, args);
+				failActionName,
+				originArgs
+			};
+
+			const result = actionFunction.apply(context, args);
 
 			if (isPromise(result)) {
-				actionWith(commit, actionName,originArgs[0]);
-
+				actionWith(commit, actionName, originArgs[0]);
 				result.then((res)=> {
 					actionWith(commit, successActionName, res );
-			}, (err)=> {
+				}, (err)=> {
 					actionWith(commit, failActionName, err );
 				});
-
 			} else {
-				actionWith(commit, actionName, result);
+				actionWith(commit, actionName, result );
 			}
 
 			return result;
