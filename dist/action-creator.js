@@ -7,7 +7,19 @@ exports.actionTypePrefixCreator = exports.actionCreator = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _lodashEs = require('lodash-es');
+var _isFunction = require('lodash-es/isFunction');
+
+var _isFunction2 = _interopRequireDefault(_isFunction);
+
+var _curry = require('lodash-es/curry');
+
+var _curry2 = _interopRequireDefault(_curry);
+
+var _uniqueId = require('lodash-es/uniqueId');
+
+var _uniqueId2 = _interopRequireDefault(_uniqueId);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var actionWith = function actionWith(commit, name, payload, context) {
 	commit.apply(context, [name, payload]);
@@ -27,7 +39,7 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 
 		var originArgs = args.slice(1);
 
-		if ((0, _lodashEs.isFunction)(actionFunction)) {
+		if ((0, _isFunction2.default)(actionFunction)) {
 			var _ret = function () {
 
 				var successActionName = actionName + '__SUCCESS';
@@ -70,6 +82,6 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 	return func;
 };
 
-var actionTypePrefixCreator = exports.actionTypePrefixCreator = (0, _lodashEs.curry)(function (prefix, actionName) {
-	return prefix ? prefix + '-action--' + actionName : (0, _lodashEs.uniqueId)() + '-action--' + actionName;
+var actionTypePrefixCreator = exports.actionTypePrefixCreator = (0, _curry2.default)(function (prefix, actionName) {
+	return prefix ? prefix + '-action--' + actionName : (0, _uniqueId2.default)() + '-action--' + actionName;
 });
