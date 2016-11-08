@@ -7,15 +7,15 @@ exports.actionTypePrefixCreator = exports.actionCreator = undefined;
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-var _isFunction = require('lodash-es/isFunction');
+var _isFunction = require('lodash/isFunction');
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
 
-var _curry = require('lodash-es/curry');
+var _curry = require('lodash/curry');
 
 var _curry2 = _interopRequireDefault(_curry);
 
-var _uniqueId = require('lodash-es/uniqueId');
+var _uniqueId = require('lodash/uniqueId');
 
 var _uniqueId2 = _interopRequireDefault(_uniqueId);
 

@@ -1,5 +1,5 @@
-import isFunction from 'lodash-es/isFunction';
-import forEach from 'lodash-es/forEach';
+import isFunction from 'lodash/isFunction';
+import forEach from 'lodash/forEach';
 
 export default (actionFunction)=> {
 

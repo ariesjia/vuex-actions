@@ -1,6 +1,6 @@
 {
   "name": "vue-actions",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "utilities for vuex",
   "main": "./dist/index.js",
   "scripts": {

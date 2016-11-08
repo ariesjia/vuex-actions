@@ -1,6 +1,6 @@
-import isFunction from 'lodash-es/isFunction';
-import curry from 'lodash-es/curry';
-import uniqueId from 'lodash-es/uniqueId';
+import isFunction from 'lodash/isFunction';
+import curry from 'lodash/curry';
+import uniqueId from 'lodash/uniqueId';
 
 const actionWith = function (commit, name, payload,context) {
 	commit.apply(context, [name, payload]);

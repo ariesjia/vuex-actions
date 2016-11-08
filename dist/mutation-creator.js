@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
-var _isFunction = require('lodash-es/isFunction');
+var _isFunction = require('lodash/isFunction');
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
 
-var _forEach = require('lodash-es/forEach');
+var _forEach = require('lodash/forEach');
 
 var _forEach2 = _interopRequireDefault(_forEach);
 
