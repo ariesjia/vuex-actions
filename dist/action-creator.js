@@ -19,10 +19,12 @@ var _uniqueId = require('lodash/uniqueId');
 
 var _uniqueId2 = _interopRequireDefault(_uniqueId);
 
+var _mutationCreator = require('./mutation-creator');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var actionWith = function actionWith(commit, name, payload, context) {
-	commit.apply(context, [name, payload]);
+	(0, _mutationCreator.hasMutation)(name) && commit.apply(context, [name, payload]);
 };
 
 function isPromise(val) {

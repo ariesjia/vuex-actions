@@ -1,7 +1,11 @@
 import isFunction from 'lodash/isFunction';
 import forEach from 'lodash/forEach';
 
-export default (actionFunction)=> {
+const mutationNames = []
+
+export const hasMutation = (actionName) => mutationNames.includes(actionName)
+
+export default (actionFunction)=>{
 
 	let mutations = {};
 
@@ -10,13 +14,14 @@ export default (actionFunction)=> {
 	}
 
 	function mergeHandlers(actionName, handler) {
+    mutationNames.push(actionName)
 		return Object.assign(mutations, {
 			[actionName]: handler
 		});
 	}
 
-	function on(actionCreator, handler) {
-		mergeHandlers(getActionName(actionCreator), handler);
+	function on(actionCreator, handler){
+    mergeHandlers(getActionName(actionCreator), handler);
 	}
 
 	const method = ['success', 'fail', 'finally'];

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+exports.hasMutation = undefined;
 
 var _isFunction = require('lodash/isFunction');
 
@@ -16,6 +17,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+var mutationNames = [];
+
+var hasMutation = exports.hasMutation = function hasMutation(actionName) {
+	return mutationNames.includes(actionName);
+};
+
 exports.default = function (actionFunction) {
 
 	var mutations = {};
@@ -25,6 +32,7 @@ exports.default = function (actionFunction) {
 	}
 
 	function mergeHandlers(actionName, handler) {
+		mutationNames.push(actionName);
 		return Object.assign(mutations, _defineProperty({}, actionName, handler));
 	}
 

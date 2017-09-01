@@ -1,9 +1,10 @@
 import isFunction from 'lodash/isFunction';
 import curry from 'lodash/curry';
 import uniqueId from 'lodash/uniqueId';
+import { hasMutation } from './mutation-creator'
 
 const actionWith = function (commit, name, payload,context) {
-	commit.apply(context, [name, payload]);
+  hasMutation(name) && commit.apply(context, [name, payload]);
 };
 
 function isPromise(val) {
