@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.actionTypePrefixCreator = exports.actionCreator = undefined;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 var _isFunction = require('lodash/isFunction');
 
 var _isFunction2 = _interopRequireDefault(_isFunction);
@@ -32,6 +30,9 @@ function isPromise(val) {
 }
 
 var actionCreator = exports.actionCreator = function actionCreator(actionName, actionFunction) {
+	var successActionName = actionName + '__SUCCESS';
+	var failActionName = actionName + '__FAIL';
+
 	var func = function func() {
 		for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
 			args[_key] = arguments[_key];
@@ -40,42 +41,32 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
 		var commit = args[0].commit;
 
 		var originArgs = args.slice(1);
-
 		if ((0, _isFunction2.default)(actionFunction)) {
-			var _ret = function () {
+			var context = {
+				actionName: actionName,
+				successActionName: successActionName,
+				failActionName: failActionName,
+				originArgs: originArgs
+			};
+			var result = actionFunction.apply(context, args);
+			if (isPromise(result)) {
+				actionWith(commit, actionName, originArgs[0]);
+				result.then(function (res) {
+					actionWith(commit, successActionName, res);
+				}, function (err) {
+					actionWith(commit, failActionName, err);
+				});
+			} else {
+				actionWith(commit, actionName, result);
+			}
 
-				var successActionName = actionName + '__SUCCESS';
-				var failActionName = actionName + '__FAIL';
-				var context = {
-					actionName: actionName,
-					successActionName: successActionName,
-					failActionName: failActionName,
-					originArgs: originArgs
-				};
-
-				var result = actionFunction.apply(context, args);
-
-				if (isPromise(result)) {
-					actionWith(commit, actionName, originArgs[0]);
-					result.then(function (res) {
-						actionWith(commit, successActionName, res);
-					}, function (err) {
-						actionWith(commit, failActionName, err);
-					});
-				} else {
-					actionWith(commit, actionName, result);
-				}
-
-				return {
-					v: result
-				};
-			}();
-
-			if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+			return result;
 		} else {
 			actionWith(commit, actionName, originArgs[0]);
 		}
 	};
+
+	func.actionName = actionName;
 
 	func.toString = function () {
 		return actionName;
