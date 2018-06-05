@@ -13,60 +13,44 @@ npm install vue-actions --save
 
 
 ```js
-// store/modules/ui.js
-
+// store/modules/products.js
 import { actionCreator , mutationCreator } from 'vue-actions'
-const SET_PROGRESS = 'SET_PROGRESS'
-
 
 const state = {
-	shouldShowButton : true,
-	progress : 0
+  list : []
 };
 
-const getters = {
-	progress: state => state.progress
-}
-
-const setProgress = actionCreator('SET_PROGRESS',function({ commit }){
-
-	const actionName = this.successActionName;
-
-	return new Promise((resolve,reject)=>{
-		window.setTimeout(()=>{
-			resolve(40)
-		},1000);
-		window.setTimeout(()=>{
-			commit(actionName,60)
-		},2000)
-		window.setTimeout(()=>{
-			commit(actionName,100)
-		},3000)
-	})
-});
+const getters = {}
 
 export const actions = {
-	setProgress
+  getProducts: actionCreator('GET_PRODUCTS', ({ commit }, payload) => {
+    return ProductAPI.getList({
+      pageSize: payload.size,
+      pageIndex: payload.index
+    }) // API return promise
+  })
 };
 
 export const mutations = mutationCreator((on)=>{
+  on(actions.getProducts,(state, )=>{
+    state.list = []
+  });
 
-	on(setProgress,(state,sssss)=>{
-		state.progress = sssss
-	});
+  on.success(actions.getProducts,(state,res)=>{
+    console.log('get products success', res)
+    state.list = res.data || []
+  });
 
-	on.success(setProgress,(state,sssss)=>{
-		console.log('setProgress success',sssss)
-		state.progress = sssss
-	});
-
+  on.success(actions.getProducts,(state,sssss)=>{
+    console.log('get products fail',sssss)
+  });
 });
 
 export default {
-	state,
-	getters,
-	actions,
-	mutations
+  state,
+  getters,
+  actions,
+  mutations
 }
 
 ```
