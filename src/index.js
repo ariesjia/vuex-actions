@@ -1,11 +1,14 @@
 import mutationCreator from './mutation-creator';
-import { actionCreator , actionTypePrefixCreator } from './action-creator';
+import { actionCreator , actionCreators, actionNameCreator } from './action-creator';
 
+const actionTypePrefixCreator = actionNameCreator
 
 export {
 	mutationCreator,
 	actionCreator,
-	actionTypePrefixCreator
+  actionCreators,
+  actionNameCreator,
+	actionTypePrefixCreator,
 };
 
 
