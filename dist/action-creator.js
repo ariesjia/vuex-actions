@@ -17,10 +17,6 @@ var _curry = require('lodash/curry');
 
 var _curry2 = _interopRequireDefault(_curry);
 
-var _uniqueId = require('lodash/uniqueId');
-
-var _uniqueId2 = _interopRequireDefault(_uniqueId);
-
 var _reduce = require('lodash/reduce');
 
 var _reduce2 = _interopRequireDefault(_reduce);
@@ -28,6 +24,10 @@ var _reduce2 = _interopRequireDefault(_reduce);
 var _camelCase = require('lodash/camelCase');
 
 var _camelCase2 = _interopRequireDefault(_camelCase);
+
+var _kebabCase = require('lodash/kebabCase');
+
+var _kebabCase2 = _interopRequireDefault(_kebabCase);
 
 var _toUpper = require('lodash/toUpper');
 
@@ -102,7 +102,7 @@ var actionCreators = exports.actionCreators = function actionCreators(map) {
       if ((0, _isPlainObject2.default)(func)) {
         extract(actionName, func, result);
       } else {
-        result[(0, _camelCase2.default)(actionName)] = actionCreator(actionName, func);
+        result[(0, _camelCase2.default)(baseName + '/' + (0, _kebabCase2.default)(name))] = actionCreator(actionName, func);
       }
       return result;
     }, intial);

@@ -1,9 +1,9 @@
 import isFunction from 'lodash/isFunction'
 import isPlainObject from 'lodash/isPlainObject'
 import curry from 'lodash/curry'
-import uniqueId from 'lodash/uniqueId'
 import reduce from 'lodash/reduce'
 import camelCase from 'lodash/camelCase'
+import kebabCase from 'lodash/kebabCase'
 import toUpper from 'lodash/toUpper'
 import {hasMutation} from './mutation-creator'
 
@@ -66,7 +66,7 @@ export const actionCreators = (map) => {
       if (isPlainObject(func)) {
         extract(actionName, func, result)
       } else {
-        result[camelCase(actionName)] = actionCreator(actionName, func)
+        result[camelCase(`${baseName}/${kebabCase(name)}`)] = actionCreator(actionName, func)
       }
       return result
     }, intial)
