@@ -51,6 +51,8 @@ export const actionCreator = (actionName, actionFunction) => {
   }
 
   func.actionName = actionName
+  func.successActionName = successActionName
+  func.failActionName = failActionName
 
   func.toString = function () {
     return actionName

@@ -87,6 +87,8 @@ var actionCreator = exports.actionCreator = function actionCreator(actionName, a
   };
 
   func.actionName = actionName;
+  func.successActionName = successActionName;
+  func.failActionName = failActionName;
 
   func.toString = function () {
     return actionName;

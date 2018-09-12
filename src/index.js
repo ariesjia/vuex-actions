@@ -1,7 +1,10 @@
 import mutationCreator from './mutation-creator';
 import { actionCreator , actionCreators, actionNameCreator } from './action-creator';
 
-const actionTypePrefixCreator = actionNameCreator
+const actionTypePrefixCreator = (...args) => {
+	console.warn('vuex-actions: this methods is depleted')
+  actionNameCreator.call(this, ...args)
+}
 
 export {
 	mutationCreator,

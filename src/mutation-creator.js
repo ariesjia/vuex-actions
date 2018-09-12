@@ -5,7 +5,7 @@ const mutationNames = []
 
 export const hasMutation = (actionName) => mutationNames.includes(actionName)
 
-export default (actionFunction)=>{
+export default (actionFunction) => {
 
 	let mutations = {};
 
