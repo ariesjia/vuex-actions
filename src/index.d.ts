@@ -25,7 +25,7 @@ export function actionTypePrefixCreator(
 ) : (name: string) => string
 
 
-export function createAction<Payload, T>(
+export function actionCreator<Payload, T>(
     actionName: string,
     payloadCreator: (context: IContext, payload: any) => Payload,
 ): IActionFunction<T>

@@ -1,6 +1,6 @@
 {
   "name": "vue-actions",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "utilities for vuex",
   "main": "./dist/index.js",
   "typings": "./src/index.d.ts",
