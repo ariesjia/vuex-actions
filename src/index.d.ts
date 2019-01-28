@@ -27,7 +27,7 @@ export function actionTypePrefixCreator(
 
 export function actionCreator<Payload, T>(
     actionName: string,
-    payloadCreator: (context: IContext, payload: any) => Payload,
+    payloadCreator?: (context: IContext, payload: any) => Payload,
 ): IActionFunction<T>
 
 export function mutationCreator(
