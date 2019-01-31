@@ -3,7 +3,7 @@
   "version": "2.2.2",
   "description": "utilities for vuex",
   "main": "./dist/index.js",
-  "typings": "./src/index.d.ts",
+  "typings": "./index.d.ts",
   "scripts": {
     "build": "babel src --out-dir dist"
   },
