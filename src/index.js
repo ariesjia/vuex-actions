@@ -3,7 +3,7 @@ import { actionCreator , actionCreators, actionNameCreator } from './action-crea
 
 const actionTypePrefixCreator = (...args) => {
 	console.warn('vuex-actions: this methods is depleted')
-  actionNameCreator.call(this, ...args)
+  return actionNameCreator.call(this, ...args)
 }
 
 export {
