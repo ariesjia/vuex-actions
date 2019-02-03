@@ -1,39 +1,38 @@
-import isFunction from 'lodash/isFunction';
-import forEach from 'lodash/forEach';
+import forEach from 'lodash/forEach'
+import flattenDeep from 'lodash/flattenDeep'
+import { getActionName } from './action-name'
 
 const mutationNames = []
 
-export const hasMutation = (actionName) => mutationNames.includes(actionName)
+export const hasMutation = actionName => mutationNames.includes(actionName)
 
 export default (actionFunction) => {
 
-	let mutations = {};
+	let mutations = {}
 
-	function getActionName(actionCreator) {
-		return isFunction(actionCreator) && actionCreator.toString() ? actionCreator.toString() : actionCreator
+	function mergeHandlers(actionCreators, type, handler) {
+		const mapper = (actions) => {
+			return actions.map((actionCreator) => {
+				const actionName = getActionName(actionCreator, type)
+				mutationNames.push(actionName)
+				return { [actionName]: handler }
+			})
+		}
+		return Object.assign(mutations, ...([actionCreators] |> flattenDeep |> mapper))
 	}
 
-	function mergeHandlers(actionName, handler) {
-    mutationNames.push(actionName)
-		return Object.assign(mutations, {
-			[actionName]: handler
-		});
+	function on(actionCreators, handler){
+    mergeHandlers(actionCreators, '', handler)
 	}
 
-	function on(actionCreator, handler){
-    mergeHandlers(getActionName(actionCreator), handler);
-	}
-
-	const method = ['success', 'fail', 'finally'];
+	const method = ['success', 'fail', 'finally']
 
 	forEach(method, (name)=> {
-		on[name] = (actionCreator, handler)=> {
-			mergeHandlers(`${getActionName(actionCreator)}__${name.toUpperCase()}`, handler);
-		};
-	});
+		on[name] = (actionCreators, handler)=> {
+			mergeHandlers(actionCreators, name, handler)
+		}
+	})
 
-	actionFunction(on);
-
-	return mutations;
-
-};
+	actionFunction(on)
+	return mutations
+}
