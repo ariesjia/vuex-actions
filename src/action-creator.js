@@ -9,7 +9,6 @@ import { hasMutation } from './mutation-creator'
 import { getActionName } from './action-name'
 
 const actionWith = function (commit, name, payload, context) {
-  console.log(payload)
   hasMutation(name) && commit.apply(context, [name, payload])
 }
 
@@ -70,7 +69,7 @@ export const actionCreator = (actionName, actionFunction) => {
 export const actionCreators = (map) => {
   const extract = (baseName, option, intial) => {
     return reduce(option, (result, func, name) => {
-      const actionName = name |> baseName |> actionNameCreator
+      const actionName = name |> (baseName |> actionNameCreator)
       if (isPlainObject(func)) {
         extract(actionName, func, result)
       } else {
