@@ -1,7 +1,7 @@
 # vue-actions
 
 > utilities for vuex2
-
+![travis-ci](https://travis-ci.org/ariesjia/vuex-actions.svg?branch=master)
 
 ## Installation
 
