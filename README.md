@@ -42,7 +42,7 @@ export const mutations = mutationCreator((on)=>{
     state.list = res.data || []
   });
 
-  on.success(actions.getProducts,(state,sssss)=>{
+  on.fail(actions.getProducts,(state,sssss)=>{
     console.log('get products fail',sssss)
   });
 });
