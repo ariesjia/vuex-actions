@@ -1,5 +1,6 @@
 import mutationCreator from './mutation-creator';
 import { actionCreator , actionCreators, actionNameCreator } from './action-creator';
+import mapPending from './map-pending';
 
 const actionTypePrefixCreator = (...args) => {
 	console.warn('vuex-actions: this methods is depleted')
@@ -12,6 +13,7 @@ export {
   actionCreators,
   actionNameCreator,
 	actionTypePrefixCreator,
+	mapPending,
 };
 
 

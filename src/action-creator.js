@@ -7,6 +7,7 @@ import kebabCase from 'lodash/kebabCase'
 import toUpper from 'lodash/toUpper'
 import { hasMutation } from './mutation-creator'
 import { getActionName } from './action-name'
+import { setPending } from './map-pending'
 
 const actionWith = function (commit, name, payload, context) {
   hasMutation(name) && commit.apply(context, [name, payload])
@@ -37,12 +38,15 @@ export const actionCreator = (actionName, actionFunction) => {
       const result = actionFunction.apply(actionContext, args)
       if (isPromise(result)) {
         actionWith(commit, actionName, originArgs[0])
+        setPending(actionName, true)
         result.then((res) => {
           actionWith(commit, successActionName, res)
           actionWith(commit, finallyActionName, res)
+          setPending(actionName, false)
         }, (err) => {
           actionWith(commit, failActionName, err)
           actionWith(commit, finallyActionName, err)
+          setPending(actionName, false)
         })
       } else {
         actionWith(commit, actionName, result)

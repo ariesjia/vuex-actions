@@ -1,4 +1,3 @@
-import forEach from 'lodash/forEach'
 import flattenDeep from 'lodash/flattenDeep'
 import { getActionName } from './action-name'
 
@@ -11,8 +10,8 @@ export default (actionFunction) => {
 	let mutations = {}
 
 	function mergeHandlers(actionCreators, type, handler) {
-		const mapper = (actions) => {
-			return actions.map((actionCreator) => {
+		const mapper = actions => {
+			return actions.map(actionCreator => {
 				const actionName = getActionName(actionCreator, type)
 				mutationNames.push(actionName)
 				return { [actionName]: handler }
@@ -27,7 +26,7 @@ export default (actionFunction) => {
 
 	const method = ['success', 'fail', 'finally']
 
-	forEach(method, (name)=> {
+	method.forEach((name)=> {
 		on[name] = (actionCreators, handler)=> {
 			mergeHandlers(actionCreators, name, handler)
 		}
