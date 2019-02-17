@@ -7,14 +7,17 @@ const actionTypePrefixCreator = (...args) => {
   return actionNameCreator.call(this, ...args)
 }
 
+export default  {
+	install
+}
+
 export {
 	mutationCreator,
 	actionCreator,
   actionCreators,
   actionNameCreator,
 	actionTypePrefixCreator,
-	mapPending,
-	install,
+	mapPending
 };
 
 

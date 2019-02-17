@@ -69,7 +69,9 @@ export default function(config) {
 }
 
 export const install =  (_Vue) => {
-	if (install.installed && Vue === _Vue) return
+	if (install.installed && Vue === _Vue) {
+		return false
+	}
 
 	Vue = _Vue
 
