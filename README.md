@@ -12,7 +12,6 @@ npm install vue-actions --save
 
 ### `actionCreator()`
 
-
 ```js
 // store/modules/products.js
 import { actionCreator , mutationCreator } from 'vue-actions'
@@ -55,3 +54,27 @@ export default {
 }
 
 ```
+
+
+### `mapPending` version >= 2.3.0
+
+
+```js
+
+import vueActions from 'vue-actions'
+import { actions } from '@/store/modules/user'
+import { mapPending } from 'vue-actions'
+
+Vue.use(vueActions)  // install vueActions first
+
+// ...
+computed: {
+  ...mapPending({
+    userloading: actions.loadUser,
+    userloading: [actions.loadUser, actions.register],
+  }),
+},
+// ...
+
+```
+
