@@ -2,6 +2,7 @@ npm-debug.log
 node_modules/
 .idea
 .DS_Store
+yarn-error.log
 test/coverage
 src
 .babelrc
