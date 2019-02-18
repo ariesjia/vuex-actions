@@ -70,8 +70,8 @@ Vue.use(vueActions)  // install vueActions first
 // ...
 computed: {
   ...mapPending({
-    userloading: actions.loadUser,
-    userloading: [actions.loadUser, actions.register],
+    userloading1: actions.loadUser,
+    userloading2: [actions.loadUser, actions.register],
   }),
 },
 // ...
