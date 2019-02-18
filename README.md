@@ -61,17 +61,16 @@ export default {
 
 ```js
 
-import vueActions from 'vue-actions'
-import { actions } from '@/store/modules/user'
-import { mapPending } from 'vue-actions'
+import vueActions, { mapPending } from 'vue-actions'
+import { actions as userActions } from '@/store/modules/user'
 
 Vue.use(vueActions)  // install vueActions first
 
 // ...
 computed: {
   ...mapPending({
-    userloading1: actions.loadUser,
-    userloading2: [actions.loadUser, actions.register],
+    userloading1: userActions.loadUser,
+    userloading2: [userActions.loadUser, userActions.register],
   }),
 },
 // ...
