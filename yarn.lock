@@ -1305,6 +1305,10 @@ find-up@^3.0.0:
   dependencies:
     locate-path "^3.0.0"
 
+flush-promises@^1.0.2:
+  version "1.0.2"
+  resolved "http://registry.npm.taobao.org/flush-promises/download/flush-promises-1.0.2.tgz#4948fd58f15281fed79cbafc86293d5bb09b2ced"
+
 for-in@^1.0.2:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/for-in/download/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
@@ -3454,6 +3458,10 @@ verror@1.10.0:
     assert-plus "^1.0.0"
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
+
+vue@^2.6.6:
+  version "2.6.6"
+  resolved "http://registry.npm.taobao.org/vue/download/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
 
 w3c-hr-time@^1.0.1:
   version "1.0.1"

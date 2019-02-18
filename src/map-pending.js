@@ -37,7 +37,12 @@ const init = () => {
 
 const checkInstalled = () => {
 	if(!store) {
-		console.error('please install first')
+		if (!Vue && typeof window !== 'undefined' && window.Vue) {
+			install(window.Vue)
+			return true
+		} else {
+			console.error('[vue-actions]: please use "Vue.install(vueActions)" to install first')
+		}
 	}
 	return !!store
 }
@@ -56,16 +61,16 @@ const getPending = (state) => (actionName) => {
 
 export default function(config) {
 	return mapValues(config, (item) => {
-			return () => {
-				const state = store.state
-				if(isArray(item)) {
-					return item.some(getPending(state))
-				}
-				else {
-					return getPending(state)(item)
-				}
+		return () => {
+			const state = store.state
+			if(isArray(item)) {
+				return item.some(getPending(state))
 			}
-		})
+			else {
+				return getPending(state)(item)
+			}
+		}
+	})
 }
 
 export const install =  (_Vue) => {
