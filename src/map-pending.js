@@ -35,8 +35,13 @@ const init = () => {
 	store = new Store(Vue)
 }
 
+const isInstalled = () => {
+	return !!store
+}
+
 const checkInstalled = (shouldWarning) => {
-	if(!store) {
+	const installed = isInstalled()
+	if(!installed) {
 		if (!Vue && typeof window !== 'undefined' && window.Vue) {
 			install(window.Vue)
 			return true
@@ -44,11 +49,11 @@ const checkInstalled = (shouldWarning) => {
 			console.error('[vue-actions]: please use "Vue.install(vueActions)" to install first')
 		}
 	}
-	return !!store
+	return installed
 }
 
 export const setPending = (actionName, status) => {
-	if(checkInstalled()) {
+	if(isInstalled()) {
 		store._vm.$set(
 			store._vm._data.$$pending, actionName, status
 		)
