@@ -37,8 +37,18 @@ export function actionCreator<Payload, T>(
     payloadCreator?: (context: IContext, payload: any) => Payload,
 ): IActionFunction<T>
 
-export function mutationCreator(
-    actionFunction: () => void
+type Await<T> = T extends {
+    then(onfulfilled?: (value: infer U) => unknown): unknown;
+} ? U : T;
+
+export type Listener<State, Payload> = {
+    (actionName: IActionFunction<Payload> | string, handler: (state: State, payload: Payload) => void ) :  void
+    success(actionName: IActionFunction<Payload> | string, handler: (state: State, payload: Await<Payload>) => void ) :  void
+    fail(actionName: IActionFunction<Payload> | string, handler: (state: State, payload: Error) => void ) :  void
+}
+
+export function mutationCreator<State>(
+    actionFunction: (on: Listener<State, any>) => void
 ): {
     [mutationName: string]: (payload: any) => void
 }
