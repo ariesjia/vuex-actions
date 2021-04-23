@@ -8,7 +8,6 @@ export interface IAction {
     toString: () => string
 }
 
-
 export interface IActionFunction<R> extends IAction {
     (...args: any[]): R
 }
